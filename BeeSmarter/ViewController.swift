@@ -13,16 +13,24 @@ import UIKit
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
-        connectWithServer("BSP 1.0 CLIENT HELLO")
-        connectWithServer("test3")
-        connectWithServer("RQSTDATA")
-        connectWithServer("RQSTTRAIN")
+        //println(communicate("BSP 1.0 CLIENT HELLO", "localhost", 9999))
+        //println(communicate("TEST3", "localhost", 9999))
+        let (ins, outs) = initialize("localhost", 9999)
+        communicate2("BSP 1.0 CLIENT HELLO", outs, ins)
+        communicate2("TEST3", outs, ins)
         
-        
-        
-        
-        
-        
+        communicate2("RQSTDATA", outs, ins)
+        println("Hopefully XML:")
+        println(communicate2("RQSTTRAIN", outs, ins))
+//        let msg = "TEST3"
+//        let data: NSData = msg.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+//        var buffer = [UInt8](count: data.length, repeatedValue: 0)
+//        outS.write(&buffer, maxLength: buffer.count)
+        //connectWithServer("BSP 1.0 CLIENT HELLO")
+        //connectWithServer("test3")
+        //connectWithServer("RQSTDATA")
+        //connectWithServer("RQSTTRAIN")
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +60,7 @@ class ViewController: UIViewController {
             inputStream.read(&readByte, maxLength: 1)
         }
         outputStream.write(&buffer, maxLength: buffer.count)
-        inputStream.read(<#buffer: UnsafeMutablePointer<UInt8>#>, maxLength: <#Int#>)
+        //inputStream.read(<#buffer: UnsafeMutablePointer<UInt8>#>, maxLength: <#Int#>)
         
         
     }

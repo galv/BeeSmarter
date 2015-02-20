@@ -13,6 +13,7 @@
 		2E4407251A97D9F6002B781F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E4407241A97D9F6002B781F /* Images.xcassets */; };
 		2E4407281A97D9F6002B781F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4407261A97D9F6002B781F /* LaunchScreen.xib */; };
 		2E4407341A97D9F6002B781F /* BeeSmarterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4407331A97D9F6002B781F /* BeeSmarterTests.swift */; };
+		D13B72E81A97DC3E0098E9FF /* Communication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B72E71A97DC3E0098E9FF /* Communication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		2E44072D1A97D9F6002B781F /* BeeSmarterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeeSmarterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E4407321A97D9F6002B781F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E4407331A97D9F6002B781F /* BeeSmarterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeSmarterTests.swift; sourceTree = "<group>"; };
+		D13B72E71A97DC3E0098E9FF /* Communication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Communication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				2E44071D1A97D9F6002B781F /* AppDelegate.swift */,
 				2E44071F1A97D9F6002B781F /* ViewController.swift */,
+				D13B72E71A97DC3E0098E9FF /* Communication.swift */,
 				2E4407211A97D9F6002B781F /* Main.storyboard */,
 				2E4407241A97D9F6002B781F /* Images.xcassets */,
 				2E4407261A97D9F6002B781F /* LaunchScreen.xib */,
@@ -214,6 +217,7 @@
 			files = (
 				2E4407201A97D9F6002B781F /* ViewController.swift in Sources */,
 				2E44071E1A97D9F6002B781F /* AppDelegate.swift in Sources */,
+				D13B72E81A97DC3E0098E9FF /* Communication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +409,7 @@
 				2E4407391A97D9F6002B781F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2E44073A1A97D9F6002B781F /* Build configuration list for PBXNativeTarget "BeeSmarterTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +418,7 @@
 				2E44073C1A97D9F6002B781F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

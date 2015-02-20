@@ -54,7 +54,19 @@ func initialize(address : String, port : Int) -> (NSInputStream, NSOutputStream)
     let inputStream = inp!
     let outputStream = out!
     outputStream.open()
+    outputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     inputStream.open()
+    inputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+    
+    var inputMessage = ""
+    //while inputStream.hasBytesAvailable {
+    //println("Has bytes")
+    var inputBuffer = [UInt8](count : 255, repeatedValue : 0)
+    let bytesRead :Int = inputStream.read(&inputBuffer, maxLength: inputBuffer.count)
+    let newInput =  NSString(bytes: inputBuffer, length: bytesRead, encoding: NSUTF8StringEncoding) as String
+    inputMessage += newInput
+    //}
+
 
     return (inputStream, outputStream)
     /*
@@ -74,7 +86,7 @@ func initialize(address : String, port : Int) -> (NSInputStream, NSOutputStream)
     
     
     return inputMessage
-*/
+    */
 }
 
 func communicate2(msg: String, outputStream: NSOutputStream, inputStream : NSInputStream) -> String {
@@ -82,12 +94,17 @@ func communicate2(msg: String, outputStream: NSOutputStream, inputStream : NSInp
     outputStream.write(&buffer, maxLength: buffer.count)
     
     var inputMessage = ""
-    while inputStream.hasBytesAvailable {
-        println("Has bytes")
+    var redo = true
+    while redo{
+        //println("Has bytes")
         var inputBuffer = [UInt8](count : 255, repeatedValue : 0)
-        let bytesRead :Int = inputStream.read(&inputBuffer, maxLength: inputBuffer.count)
+        let bytesRead = inputStream.read(&inputBuffer, maxLength: inputBuffer.count)
         let newInput =  NSString(bytes: inputBuffer, length: bytesRead, encoding: NSUTF8StringEncoding) as String
         inputMessage += newInput
+        if bytesRead < 255 {
+            redo = false
+        }
+        
     }
     
     return inputMessage

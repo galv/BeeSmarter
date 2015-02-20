@@ -16,10 +16,10 @@ class ViewController: UIViewController {
         //println(communicate("BSP 1.0 CLIENT HELLO", "localhost", 9999))
         //println(communicate("TEST3", "localhost", 9999))
         let (ins, outs) = initialize("localhost", 9999)
-        communicate2("BSP 1.0 CLIENT HELLO", outs, ins)
-        communicate2("TEST3", outs, ins)
+        println(communicate2("BSP 1.0 CLIENT HELLO", outs, ins))
+        println(communicate2("TEST3", outs, ins))
         
-        communicate2("RQSTDATA", outs, ins)
+        println(communicate2("RQSTDATA", outs, ins))
         println("Hopefully XML:")
         println(communicate2("RQSTTRAIN", outs, ins))
 //        let msg = "TEST3"

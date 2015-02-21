@@ -54,9 +54,9 @@ func initialize(address : String, port : Int) -> (NSInputStream, NSOutputStream)
     let inputStream = inp!
     let outputStream = out!
     outputStream.open()
-    outputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+    //outputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     inputStream.open()
-    inputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+    //inputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     
     var inputMessage = ""
     //while inputStream.hasBytesAvailable {
@@ -105,8 +105,7 @@ func communicate2(msg: String, outputStream: NSOutputStream, inputStream : NSInp
             redo = false
         }
         
-    }
-    
+    }    
     return inputMessage
 
 }

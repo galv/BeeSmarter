@@ -10,7 +10,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, NSXMLParserDelegate {
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+        println("Element's name is \(elementName)")
+        println("Element's attributes are \(attributeDict)")
+    }
     
     override func viewDidLoad() {
         //println(communicate("BSP 1.0 CLIENT HELLO", "localhost", 9999))
@@ -19,9 +24,13 @@ class ViewController: UIViewController {
         println(communicate2("BSP 1.0 CLIENT HELLO", outs, ins))
         println(communicate2("TEST3", outs, ins))
         
-        println(communicate2("RQSTDATA", outs, ins))
-        println("Hopefully XML:")
-        println(communicate2("RQSTTRAIN", outs, ins))
+        let password = communicate2("RQSTDATA", outs, ins)
+        let training = communicate2("RQSTTRAIN", outs, ins)
+//"<place uid=\"98606\"/>"//        
+        let xml = NSXMLParser(data: training.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        xml.delegate = self//XMLMunger()
+        xml.parse()
+        
 //        let msg = "TEST3"
 //        let data: NSData = msg.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
 //        var buffer = [UInt8](count: data.length, repeatedValue: 0)

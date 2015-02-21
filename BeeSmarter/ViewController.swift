@@ -11,10 +11,55 @@
 import UIKit
 
 class ViewController: UIViewController, NSXMLParserDelegate {
-    
+
+    var numTrainingSamples = 0
+    var tmp : [NSObject : AnyObject]!
+    var nextCapital : Bool = false
+
+
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+        if (elementName == "training") {
+            
+        }
         println("Element's name is \(elementName)")
         println("Element's attributes are \(attributeDict)")
+        
+        if elementName == "key-down"
+        {
+            tmp = attributeDict
+        }
+        else if elementName == "pattern"
+        {
+            numTrainingSamples++
+            dataPoints.append([])
+        }
+        else if elementName == "key-up"
+        {
+            let key = String(tmp["code"] as NSString)
+
+            let timeDiff = Int(attributeDict["posix-time"]! as NSNumber) - Int(tmp["posix-time"]! as
+            NSNumber)
+            
+            
+            let tmpXString =  String(tmp["relative-pos-x"] as NSString)
+            let tmpX = tmpXString.substringToIndex(tmpXString.endIndex.predecessor()).toInt()!
+            
+            let tmpYString = String(tmp["relative-pos-x"] as NSString)
+            let tmpY = tmpYString.substringToIndex(tmpYString.endIndex.predecessor()).toInt()!
+            
+            let dictXString =  String(attributeDict["relative-pos-x"] as NSString)
+            let dictX = dictXString.substringToIndex(dictXString.endIndex.predecessor()).toInt()!
+            
+            let dictYString = String(attributeDict["relative-pos-x"] as NSString)
+            let dictY = dictYString.substringToIndex(dictYString.endIndex.predecessor()).toInt()!
+            
+            let finalTime = Int(attributeDict["posix-time"]! as NSNumber)
+            
+            let dataIn = DataInput(time: timeDiff, key: key, x_pos1: tmpX, x_pos2: dictX, y_pos1: tmpY, y_pos2: dictY, finalTime: finalTime)
+            
+            
+            dataPoints[numTrainingSamples].append(dataIn)
+        }
     }
     
     override func viewDidLoad() {
@@ -26,7 +71,6 @@ class ViewController: UIViewController, NSXMLParserDelegate {
         
         let password = communicate2("RQSTDATA", outs, ins)
         let training = communicate2("RQSTTRAIN", outs, ins)
-//"<place uid=\"98606\"/>"//        
         let xml = NSXMLParser(data: training.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         xml.delegate = self//XMLMunger()
         xml.parse()

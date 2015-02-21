@@ -29,4 +29,25 @@ class DataInput {
         self.y_pos2 = y_pos2
         self.finalTime = finalTime
     }
+    
+    /*
+    Ignore enter, remove character before backspace, make next character capital after shift.
+    */
+    class func cleanData() {
+        for i in 0..<countElements(dataPoints) {
+            //Remove ENTER presses
+            dataPoints[i] = dataPoints[i].filter { (elem : DataInput) -> Bool in
+                elem.key != "ENTER"
+            }
+            
+            for j in 0..<countElements(dataPoints[i]) {
+                if dataPoints[i][j].key == "BACKSPACE" {
+                    dataPoints[i].removeAtIndex(j-1) //Remove the previous value.
+                    if dataPoints[i][j-1].key == "SHIFT" {
+                        dataPoints[i].removeAtIndex(j-1)
+                    }
+                }
+            }
+        }
+    }
 }

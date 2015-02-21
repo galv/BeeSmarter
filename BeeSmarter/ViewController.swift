@@ -16,7 +16,6 @@ class ViewController: UIViewController, NSXMLParserDelegate {
     var tmp : [NSObject : AnyObject]!
     var nextCapital : Bool = false
 
-
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
         if (elementName == "training") {
             
@@ -35,11 +34,13 @@ class ViewController: UIViewController, NSXMLParserDelegate {
         }
         else if elementName == "key-up"
         {
+            var nf = NSNumberFormatter()
             let key = String(tmp["code"] as NSString)
-
-            let timeDiff = Int(attributeDict["posix-time"]! as NSNumber) - Int(tmp["posix-time"]! as
-            NSNumber)
             
+            //let thingy : String = (attributeDict["posix-time"]! as NSString).toInt()
+
+            let timeDiff = Int(nf.numberFromString(attributeDict["posix-time"]! as NSString)!)
+                - Int(nf.numberFromString(tmp["posix-time"]! as NSString)!)
             
             let tmpXString =  String(tmp["relative-pos-x"] as NSString)
             let tmpX = tmpXString.substringToIndex(tmpXString.endIndex.predecessor()).toInt()!
@@ -53,7 +54,7 @@ class ViewController: UIViewController, NSXMLParserDelegate {
             let dictYString = String(attributeDict["relative-pos-x"] as NSString)
             let dictY = dictYString.substringToIndex(dictYString.endIndex.predecessor()).toInt()!
             
-            let finalTime = Int(attributeDict["posix-time"]! as NSNumber)
+            let finalTime = Int(nf.numberFromString(attributeDict["posix-time"]! as NSString)!)
             
             let dataIn = DataInput(time: timeDiff, key: key, x_pos1: tmpX, x_pos2: dictX, y_pos1: tmpY, y_pos2: dictY, finalTime: finalTime)
             

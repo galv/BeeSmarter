@@ -13,7 +13,7 @@ var dataPoints = [[DataInput]](count: 0, repeatedValue: [])
 class DataInput {
     
     let time : Int
-    let key : String
+    var key : String
     let x_pos1 : Int
     let x_pos2 : Int
     let y_pos1 : Int
@@ -42,10 +42,26 @@ class DataInput {
             
             for j in 0..<countElements(dataPoints[i]) {
                 if dataPoints[i][j].key == "BACKSPACE" {
-                    dataPoints[i].removeAtIndex(j-1) //Remove the previous value.
-                    if dataPoints[i][j-1].key == "SHIFT" {
+                    if dataPoints[i][j].key == "BACKSPACE" {
                         dataPoints[i].removeAtIndex(j-1)
+                        dataPoints[i].removeAtIndex(j-1)
+                        if j - 1 < countElements(dataPoints[i]) && dataPoints[i][j-1].key == "SHIFT" {
+                            dataPoints[i].removeAtIndex(j-1)
+                        }
+                    } else {
+                        dataPoints[i].removeAtIndex(j-1) //Remove the previous value.
+                        if dataPoints[i][j-1].key == "SHIFT" {
+                            dataPoints[i].removeAtIndex(j-1)
+                        }
                     }
+                }
+            }
+            
+            for j in 0..<countElements(dataPoints[i]) {
+                if j != countElements(dataPoints[i]) - 1 {
+                if dataPoints[i][j].key == "SHIFT" {
+                    dataPoints[i][j+1].key = dataPoints[i][j+1].key.uppercaseString
+                }
                 }
             }
         }

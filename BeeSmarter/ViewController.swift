@@ -12,9 +12,8 @@ import UIKit
 
 class ViewController: UIViewController, NSXMLParserDelegate {
 
-    var numTrainingSamples = 0
+    var numTrainingSamples = -1
     var tmp : [NSObject : AnyObject]!
-    var nextCapital : Bool = false
 
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
         if (elementName == "training") {
@@ -61,6 +60,10 @@ class ViewController: UIViewController, NSXMLParserDelegate {
             
             dataPoints[numTrainingSamples].append(dataIn)
         }
+        
+       if countElements(dataPoints) != 0 {
+            DataInput.cleanData()
+       }
     }
     
     override func viewDidLoad() {
@@ -68,13 +71,42 @@ class ViewController: UIViewController, NSXMLParserDelegate {
         //println(communicate("TEST3", "localhost", 9999))
         let (ins, outs) = initialize("localhost", 9999)
         println(communicate2("BSP 1.0 CLIENT HELLO", outs, ins))
-        println(communicate2("TEST3", outs, ins))
+        println(communicate2("TEST1", outs, ins))
         
         let password = communicate2("RQSTDATA", outs, ins)
         let training = communicate2("RQSTTRAIN", outs, ins)
-        let xml = NSXMLParser(data: training.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        var xml = NSXMLParser(data: training.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
         xml.delegate = self//XMLMunger()
         xml.parse()
+    
+        //dataPoints.removeAtIndex(12)
+        var summary = DataSummary(dataPoints: dataPoints)
+        
+       // let message = "This is so we can use substring :)"
+        var decisions = [String]()
+        var test = communicate2("RQSTTEST", outs, ins)
+        while !(test.substringToIndex(test.startIndex.successor()) == "G" as String) {
+            dataPoints.removeAll(keepCapacity: true)
+            numTrainingSamples = -1
+            xml = NSXMLParser(data: test.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+            xml.delegate = self
+            xml.parse()
+            
+            var accept = summary.isCorrect(dataPoints[0])
+            if accept {
+              decisions.append("accept")
+                test = communicate2("ACCEPT", outs, ins)
+            }
+            else {
+                decisions.append("reject")
+                test = communicate2("REJECT", outs, ins)
+            }
+        }
+        let groundTruth = split(test) {$0 == " "}
+        
+        for i in 0..<countElements(decisions) {
+            println(decisions[i] + ": " + groundTruth[i+2])
+        }
         
 //        let msg = "TEST3"
 //        let data: NSData = msg.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
